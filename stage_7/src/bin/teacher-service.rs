@@ -50,7 +50,7 @@ async fn main() -> io::Result<()> {
     };
 
     HttpServer::new(app)
-        .bind("127.0.0.1:3000")?
+        .bind("127.0.0.1:3077")?
         .run()
         .await
 }

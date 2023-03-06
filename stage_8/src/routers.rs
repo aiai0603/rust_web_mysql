@@ -1,34 +1,14 @@
-use crate::handlers::{course::*, general::health_check_handler, teacher::*};
-
 use actix_web::web;
-pub fn general_routes(cfg: &mut web::ServiceConfig) {
-    cfg.route("/health", web::get().to(health_check_handler));
-}
+use crate::handlers::*;
+use actix_files as fs;
 
-pub fn course_routes(cfg: &mut web::ServiceConfig) {
+pub fn app_config(cfg: &mut web::ServiceConfig) {
     cfg.service(
-        web::scope("/courses")
-            .route("/", web::post().to(post_new_course))
-            .route("/{teacher_id}", web::get().to(get_courses_for_teacher))
-            .route(
-                "/{teacher_id}/{course_id}",
-                web::get().to(get_course_detail),
-            )
-            .route("/{teacher_id}/{course_id}", web::delete().to(delete_course))
-            .route(
-                "/{teacher_id}/{course_id}",
-                web::put().to(update_course_details),
-            ),
-    );
-}
-
-pub fn teacher_routes(cfg: &mut web::ServiceConfig) {
-    cfg.service(
-        web::scope("/teachers")
-            .route("/", web::post().to(post_new_teacher))
-            .route("/", web::get().to(get_all_teacher))
-            .route("/{teacher_id}", web::get().to(get_teacher_detail))
-            .route("/{teacher_id}", web::delete().to(delete_teacher))
-            .route("/{teacher_id}", web::put().to(update_teacher_details)),
+        web::scope("")
+        .service(fs::Files::new("/static","./static").show_files_listing())
+        .service(web::resource("/").route(web::get().to(get_all_teacher)))
+        .service(web::resource("/register").route(web::get().to(show_register_from)))
+        .service(web::resource("/register-post").route(web::post().to(handle_register)))
+            
     );
 }

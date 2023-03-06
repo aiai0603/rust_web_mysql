@@ -1,14 +1,13 @@
 use actix_web::{error, http::StatusCode, HttpResponse, Result};
 use serde::Serialize;
-use sqlx::error::Error as SQLxError;
 use std::fmt;
 
 #[derive(Debug, Serialize)]
 pub enum MyError {
-    DBError(String),
+    TeraError(String),
     ActixError(String),
+    #[allow(dead_code)]
     NotFound(String),
-    InvalidInput(String),
 }
 
 #[derive(Debug, Serialize)]
@@ -19,8 +18,8 @@ pub struct MyErrorResponse {
 impl MyError {
     fn error_response(&self) -> String {
         match self {
-            MyError::DBError(msg) => {
-                println!("Database error occurred: {:?}", msg);
+            MyError::TeraError(msg) => {
+                println!("Tera error occurred: {:?}", msg);
                 "Database error".into()
             }
             MyError::ActixError(msg) => {
@@ -31,10 +30,6 @@ impl MyError {
                 println!("Not found error occurred: {:?}", msg);
                 msg.into()
             }
-            MyError::InvalidInput(msg) => {
-                println!("Invalid Input error occurred: {:?}", msg);
-                msg.into()
-            }
         }
     }
 }
@@ -42,9 +37,8 @@ impl MyError {
 impl error::ResponseError for MyError {
     fn status_code(&self) -> StatusCode {
         match self {
-            MyError::DBError(_) | MyError::ActixError(_) => StatusCode::INTERNAL_SERVER_ERROR,
-            MyError::NotFound(_) => StatusCode::NOT_FOUND,
-            MyError::InvalidInput(_) => StatusCode::BAD_REQUEST,
+            MyError::TeraError(_msg) | MyError::ActixError(_msg) => StatusCode::INTERNAL_SERVER_ERROR,
+            MyError::NotFound(_msg) => StatusCode::NOT_FOUND,
         }
     }
 
@@ -67,8 +61,11 @@ impl From<actix_web::error::Error> for MyError {
     }
 }
 
-impl From<SQLxError> for MyError {
-    fn from(err: SQLxError) -> Self {
-        MyError::DBError(err.to_string())
+impl From<tera::Error> for MyError {
+    fn from(err: tera::Error) -> Self {
+        MyError::TeraError(err.to_string())
     }
 }
+
+
+

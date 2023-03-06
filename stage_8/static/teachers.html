@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Teachers</title>
+    </head>
+
+    <body>
+        <h1>教师列表</h1>
+
+        <ol>
+            {% for t in teachers %}
+            <li>
+                <h5>{{t.name}}</h5>
+                <div>{{t.profile}}</div>
+            </li>
+            {% endfor %}
+        </ol>
+
+        <div style="margin: 20px;">
+             <a href="/register"> 注册老师 </a>
+        </div>
+    </body>
+</html>
