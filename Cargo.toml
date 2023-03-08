@@ -1,0 +1,2 @@
+[workspace]
+members = ['stage_7','stage_8','stage_9']

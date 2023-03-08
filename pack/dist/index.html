@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello wasm-pack!</title>
+    <script src="./bootstrap.js"></script>
+    <link
+      href="https://cdn.staticfile.org/twitter-bootstrap/5.1.3/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <noscript
+      >This page contains webassembly and javascript content, please enable
+      javascript in your browser.</noscript
+    >
+    <nav class="navbar navbar-dark bg-primary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"> WSAM 项目</a>
+      </div>
+    </nav>
+    <div class="m-3" style="height: 600px">
+      <div class="col">
+        <div class="card border-info mb-3">
+          <div class="card-header">Course</div>
+          <div class="card-body">
+            <form class="row g-3 needs-validation" id="form">
+              <label for="name" class="form-label">课程名称</label>
+              <div class="mb-3">
+                <input
+                  type="name"
+                  class="form-control"
+                  id="name"
+                  required
+                  placeholder="课程名称"
+                />
+                <div class="invalid-feedback">请填写课程名称</div>
+              </div>
+              <div class="mb-3">
+                <label for="description" class="form-label">课程简介</label>
+                <textarea
+                  id="description"
+                  rows="3"
+                  class="form-control"
+                ></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">提交</button>
+              </div>
+            </form>
+  
+          </div>
+        </div>
+        <table class="table table-hover table-bordered table-sm">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Time</th>
+              <th scope="col">Description</th>
+              <th scope="col">操作</th>
+            </tr>
+          </thead>
+          <tbody id="left_body"></tbody>
+        </table>
+        <div id="left"></div>
+      </div>
+    </div>
+  </body>
+</html>
